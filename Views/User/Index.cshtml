@@ -1,8 +1,74 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@{ ViewBag.Title = "Index";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<h2>Index</h2>
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="text-center">
+        <!-- Logo centrado -->
+        <div class="logo-container">
+            <img src="~/imagenes/logo.png" alt="Logo Empresa" class="logo-img" />
+        </div>
 
+        <!-- Opciones de Ingresar y Registrar -->
+        <div class="button-container mt-4">
+            <a href="~/User/Login" class="btn btn-custom">Ingresar</a>
+            <a href="~/User/Create" class="btn btn-custom">Registrar</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #FFFFFF;
+        margin: 0;
+    }
+
+    .container-fluid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .logo-container {
+        margin-bottom: 20px;
+    }
+
+    .logo-img {
+        max-width: 200px;
+        width: 100%;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-custom {
+        padding: 15px 30px;
+        font-size: 18px;
+        border-radius: 25px;
+        width: 150px;
+        margin: 10px 0;
+        text-align: center;
+        color: #FFFFFF;
+        text-decoration: none;
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+        .btn-custom:nth-child(1) {
+            background-color: #8B0000;
+            border: none;
+        }
+
+        .btn-custom:nth-child(2) {
+            background-color: #4B3D3D;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.05);
+        }
+</style>
