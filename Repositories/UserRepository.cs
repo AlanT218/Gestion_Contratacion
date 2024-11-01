@@ -59,23 +59,20 @@ namespace Proyecto_Gestion.Repositories
         {
             UserDto userResult = new UserDto();
 
-            // Modificar la consulta SQL para usar Nit y Contrasenia
-            string SQL = "SELECT nombres, apellidos, contrasenia, id_usuario, nit, tipo_docu " +
-                         "FROM [bdProyecto].[dbo].[usuario] " +
-                         "WHERE nit = @Nit AND contrasenia = @Contrasenia;";
+            // Consulta SQL 
+            //string SQL = "SELECT nombres, apellidos, contrasenia, id_usuario, nit, tipo_docu " +
+                string SQL = "SELECT nombres, apellidos, contrasenia , nit, tipo_docu " +
+                "FROM [bdProyecto].[dbo].[usuario] " +
+                         "WHERE nombres = '" + user.Nombres + "' AND contrasenia = '" + user.Contrasenia + "';";
 
             DbContextUtility Connection = new DbContextUtility();
             Connection.Connect();
 
             using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
             {
-                // Usar parámetros para evitar SQL injection
-                command.Parameters.AddWithValue("@Nit", user.Nit);
-                command.Parameters.AddWithValue("@Contrasenia", user.Contrasenia);
-
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         userResult.Id_usuario = reader.GetInt32(3);
                         userResult.Nit = reader.GetInt32(4);
@@ -83,12 +80,6 @@ namespace Proyecto_Gestion.Repositories
                         userResult.Nombres = reader.GetString(0);
                         userResult.Apellidos = reader.GetString(1);
                         userResult.Contrasenia = reader.GetString(2);
-                        userResult.Response = 1;  // Login exitoso
-                    }
-                    else
-                    {
-                        userResult.Response = 0;  // Credenciales incorrectas
-                        userResult.Mensaje = "NIT o contraseña incorrectos.";
                     }
                 }
             }
@@ -97,77 +88,78 @@ namespace Proyecto_Gestion.Repositories
             return userResult;
         }
     }
-        //public class UserRepository
-        //{
-        //    public int CreateUser(UserDto user)
-        //    {
-        //        int comando = 0;
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        //consulta SQL
-        //        string SQL = "INSERT INTO TEST.dbo.[USER] (id_role,id_state,name,username,password) "
-        //                    + "VALUES (" + user.IdRole + "," + user.IdState + ",'" + user.Name +
-        //                    "','" + user.Username + "','" + user.Password + "');";
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            comando = command.ExecuteNonQuery();
-        //        }
-        //        Connection.Disconnect();
 
-        //        return comando;
-        //    }
+    //public class UserRepository
+    //{
+    //    public int CreateUser(UserDto user)
+    //    {
+    //        int comando = 0;
+    //        DbContextUtility Connection = new DbContextUtility();
+    //        Connection.Connect();
+    //        //consulta SQL
+    //        string SQL = "INSERT INTO TEST.dbo.[USER] (id_role,id_state,name,username,password) "
+    //                    + "VALUES (" + user.IdRole + "," + user.IdState + ",'" + user.Name +
+    //                    "','" + user.Username + "','" + user.Password + "');";
+    //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+    //        {
+    //            comando = command.ExecuteNonQuery();
+    //        }
+    //        Connection.Disconnect();
 
-        //    public bool BuscarUsuario(string username)
-        //    {
-        //        bool result = false;
-        //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
-        //            "FROM TEST.dbo.[USER] " +
-        //            "WHERE username = '" + username + "';";
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    result = true;
-        //                }
-        //            }
-        //        }
-        //        Connection.Disconnect();
+    //        return comando;
+    //    }
 
-        //        return result;
-        //    }
+    //    public bool BuscarUsuario(string username)
+    //    {
+    //        bool result = false;
+    //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
+    //            "FROM TEST.dbo.[USER] " +
+    //            "WHERE username = '" + username + "';";
+    //        DbContextUtility Connection = new DbContextUtility();
+    //        Connection.Connect();
+    //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+    //        {
+    //            using (SqlDataReader reader = command.ExecuteReader())
+    //            {
+    //                if (reader.Read())
+    //                {
+    //                    result = true;
+    //                }
+    //            }
+    //        }
+    //        Connection.Disconnect();
 
-        //    public UserDto Login(UserDto user)
-        //    {
-        //        UserDto userResult = new UserDto();
+    //        return result;
+    //    }
 
-        //        //Consulta SQL
-        //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
-        //            "FROM TEST.dbo.[USER] " +
-        //            "WHERE username = '" + user.Username + "' AND password = '" + user.Password + "';";
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    userResult.IdUser = reader.GetInt32(3);
-        //                    userResult.IdRole = reader.GetInt32(4);
-        //                    userResult.IdState = reader.GetInt32(5);
-        //                    userResult.Name = reader.GetString(0);
-        //                    userResult.Username = reader.GetString(1);
-        //                    userResult.Password = reader.GetString(2);
-        //                }
-        //            }
-        //        }
-        //        Connection.Disconnect();
+    //    public UserDto Login(UserDto user)
+    //    {
+    //        UserDto userResult = new UserDto();
 
-        //        return userResult;
-        //    }
-        //}
-    }
+    //        //Consulta SQL
+    //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
+    //            "FROM TEST.dbo.[USER] " +
+    //            "WHERE username = '" + user.Username + "' AND password = '" + user.Password + "';";
+    //        DbContextUtility Connection = new DbContextUtility();
+    //        Connection.Connect();
+    //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+    //        {
+    //            using (SqlDataReader reader = command.ExecuteReader())
+    //            {
+    //                while (reader.Read())
+    //                {
+    //                    userResult.IdUser = reader.GetInt32(3);
+    //                    userResult.IdRole = reader.GetInt32(4);
+    //                    userResult.IdState = reader.GetInt32(5);
+    //                    userResult.Name = reader.GetString(0);
+    //                    userResult.Username = reader.GetString(1);
+    //                    userResult.Password = reader.GetString(2);
+    //                }
+    //            }
+    //        }
+    //        Connection.Disconnect();
+
+    //        return userResult;
+    //    }
+    //}
+}
