@@ -59,6 +59,49 @@ namespace Proyecto_Gestion.Controllers
                 return View(); // Muestra la vista en caso de que ocurra una excepción.
             }
         }
+        // Acción para mostrar la vista de Login (GET)
+        // GET: User/Login
+        public ActionResult Login()
+        {
+            UserDto user = new UserDto(); // Inicializa un nuevo usuario vacío.
+            return View(user); // Devuelve la vista de login.
+        }
+
+        [HttpPost]
+        public ActionResult Login(UserDto user)
+        {
+            UserService userService = new UserService();
+            UserDto userResponse = userService.LoginUser(user);
+
+            if (userResponse.Response == 1)
+            {
+                // Almacena los datos en variables de sesión
+                Session["UserId"] = userResponse.Id_usuario;
+                Session["UserNit"] = userResponse.Nit;
+                Session["UserName"] = userResponse.Nombres; // Almacena el nombre del usuario
+
+                return RedirectToAction("VistaForm"); // Redirige a la vista de bienvenida
+            }
+            else
+            {
+                // Muestra el mensaje de error si las credenciales son incorrectas
+                ModelState.AddModelError("", userResponse.Mensaje);
+                return View(userResponse);
+            }
+        }
+
+        public ActionResult VistaForm()
+        {
+            // Verifica si la sesión está activa
+            if (Session["UserId"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login"); // Redirige a login si la sesión no está activa
+            }
+        }
 
         // GET: User/Edit/5
         // Acción que muestra el formulario de edición de un usuario en base a su id.
