@@ -1,5 +1,6 @@
 ﻿using Proyecto_Gestion.Dtos;
 using Proyecto_Gestion.Services;
+using Proyecto_Gestion.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,9 @@ namespace Proyecto_Gestion.Controllers
                 return View(); // Muestra la vista en caso de que ocurra una excepción.
             }
         }
+
+
+
         // Acción para mostrar la vista de Login (GET)
         // GET: User/Login
         public ActionResult Login()
@@ -86,7 +90,7 @@ namespace Proyecto_Gestion.Controllers
             {
                 // Muestra el mensaje de error si las credenciales son incorrectas
                 ModelState.AddModelError("", userResponse.Mensaje);
-                return View(userResponse);
+                return View(userResponse);  
             }
         }
 
@@ -103,9 +107,85 @@ namespace Proyecto_Gestion.Controllers
             }
         }
 
+        public ActionResult Candidatos(string cargo = null)
+        {
+            UserService userService = new UserService();
+            List<UserDto> candidatos = userService.ObtenerCandidatos(cargo);
+            return View(candidatos);
+        }
+        public ActionResult DetallesCandidato(int id)
+        {
+            UserService userService = new UserService();
+            UserDto candidato = userService.ObtenerUsuarioPorId(id);
+
+            if (candidato == null)
+            {
+                return HttpNotFound(); // Devuelve un error 404 si el candidato no existe.
+            }
+
+            return View(candidato);
+        }
+
+
+        // Acción para aceptar al candidato
+        [HttpPost]
+        public ActionResult Aceptar(int id)
+        {
+            try
+            {
+                UserService userService = new UserService();
+                UserDto user = userService.ObtenerUsuarioPorId(id);
+                if (user != null)
+                {
+                    userService.AceptarUsuario(user);
+                    TempData["Mensaje"] = "Candidato aceptado, correo enviado.";
+                }
+                else
+                {
+                    TempData["Error"] = "No se pudo encontrar al candidato.";
+                }
+                return RedirectToAction("DetallesCandidato", new { id = id });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Ocurrió un error al aceptar el candidato: " + ex.Message;
+                return RedirectToAction("DetallesCandidato", new { id = id });
+            }
+        }
+
+        // Acción para rechazar al candidato
+        [HttpPost]
+        public ActionResult Rechazar(int id)
+        {
+            try
+            {
+                UserService userService = new UserService();
+                UserDto user = userService.ObtenerUsuarioPorId(id);
+                if (user != null)
+                {
+                    userService.RechazarUsuario(user);
+                    TempData["Mensaje"] = "Candidato rechazado, correo enviado.";
+                }
+                else
+                {
+                    TempData["Error"] = "No se pudo encontrar al candidato.";
+                }
+                return RedirectToAction("DetallesCandidato", new { id = id });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Ocurrió un error al rechazar el candidato: " + ex.Message;
+                return RedirectToAction("DetallesCandidato", new { id = id });
+            }
+        }
+
+
+
+
+
         // GET: User/Edit/5
         // Acción que muestra el formulario de edición de un usuario en base a su id.
-        // La lógica de recuperación del usuario aún no está implementada.
+        // La lógica de recuperación del usuario aún< no está implementada.
         public ActionResult Edit(int id)
         {
             return View();

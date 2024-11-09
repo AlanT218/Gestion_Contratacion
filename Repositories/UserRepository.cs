@@ -16,13 +16,18 @@ namespace Proyecto_Gestion.Repositories
             DbContextUtility Connection = new DbContextUtility();
             Connection.Connect();
 
-            // Consulta SQL 
-            string SQL = "INSERT INTO [bdProyecto].[dbo].[usuario] (nit, tipo_docu, nombres, apellidos, contrasenia) " +
-                         "VALUES (" + user.Nit + ", '" + user.Tipo_docu + "', '" +
-                         user.Nombres + "', '" + user.Apellidos + "', '" + user.Contrasenia + "');";
+            string SQL = "INSERT INTO [bdProyecto].[dbo].[usuario] (nit, tipo_docu, nombres, apellidos, correo, contrasenia) " +
+                         "VALUES (@Nit, @Tipo_docu, @Nombres, @Apellidos, @Correo, @Contrasenia);";
 
             using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
             {
+                command.Parameters.AddWithValue("@Nit", user.Nit);
+                command.Parameters.AddWithValue("@Tipo_docu", user.Tipo_docu);
+                command.Parameters.AddWithValue("@Nombres", user.Nombres);
+                command.Parameters.AddWithValue("@Apellidos", user.Apellidos);
+                command.Parameters.AddWithValue("@Correo", user.Correo);  // Correo añadido
+                command.Parameters.AddWithValue("@Contrasenia", user.Contrasenia);
+
                 comando = command.ExecuteNonQuery();
             }
             Connection.Disconnect();
@@ -33,15 +38,17 @@ namespace Proyecto_Gestion.Repositories
         public bool BuscarUsuario(string nombres)
         {
             bool result = false;
-            string SQL = "SELECT nombres, apellidos, contrasenia, id_usuario, nit, tipo_docu " +
+            string SQL = "SELECT nombres, apellidos, correo, contrasenia, id_usuario, nit, tipo_docu " +
                          "FROM [bdProyecto].[dbo].[usuario] " +
-                         "WHERE nombres = '" + nombres + "';";
+                         "WHERE nombres = @Nombres;";
 
             DbContextUtility Connection = new DbContextUtility();
             Connection.Connect();
 
             using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
             {
+                command.Parameters.AddWithValue("@Nombres", nombres);
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
@@ -59,8 +66,7 @@ namespace Proyecto_Gestion.Repositories
         {
             UserDto userResult = new UserDto();
 
-            // Modificar la consulta SQL para usar Nit y Contrasenia
-            string SQL = "SELECT nombres, apellidos, contrasenia, id_usuario, nit, tipo_docu " +
+            string SQL = "SELECT nombres, apellidos, correo, contrasenia, id_usuario, nit, tipo_docu " +
                          "FROM [bdProyecto].[dbo].[usuario] " +
                          "WHERE nit = @Nit AND contrasenia = @Contrasenia;";
 
@@ -69,7 +75,6 @@ namespace Proyecto_Gestion.Repositories
 
             using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
             {
-                // Usar parámetros para evitar SQL injection
                 command.Parameters.AddWithValue("@Nit", user.Nit);
                 command.Parameters.AddWithValue("@Contrasenia", user.Contrasenia);
 
@@ -77,12 +82,13 @@ namespace Proyecto_Gestion.Repositories
                 {
                     if (reader.Read())
                     {
-                        userResult.Id_usuario = reader.GetInt32(3);
-                        userResult.Nit = reader.GetInt32(4);
-                        userResult.Tipo_docu = reader.GetString(5);
-                        userResult.Nombres = reader.GetString(0);
-                        userResult.Apellidos = reader.GetString(1);
-                        userResult.Contrasenia = reader.GetString(2);
+                        userResult.Id_usuario = reader.GetInt32(reader.GetOrdinal("id_usuario"));
+                        userResult.Nit = reader.GetInt32(reader.GetOrdinal("nit"));
+                        userResult.Tipo_docu = reader.GetString(reader.GetOrdinal("tipo_docu"));
+                        userResult.Nombres = reader.GetString(reader.GetOrdinal("nombres"));
+                        userResult.Apellidos = reader.GetString(reader.GetOrdinal("apellidos"));
+                        userResult.Correo = reader.GetString(reader.GetOrdinal("correo")); // Correo añadido
+                        userResult.Contrasenia = reader.GetString(reader.GetOrdinal("contrasenia"));
                         userResult.Response = 1;  // Login exitoso
                     }
                     else
@@ -96,78 +102,259 @@ namespace Proyecto_Gestion.Repositories
 
             return userResult;
         }
+
+        public UserDto ObtenerUsuarioPorId(int id)
+        {
+            UserDto user = null;
+
+            string sql = "SELECT id_usuario, nombres, apellidos, nit, tipo_docu, correo " +
+                         "FROM [bdProyecto].[dbo].[usuario] " +
+                         "WHERE id_usuario = @Id";
+
+            DbContextUtility Connection = new DbContextUtility();
+            Connection.Connect();
+
+            using (SqlCommand command = new SqlCommand(sql, Connection.CONN()))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        user = new UserDto
+                        {
+                            Id_usuario = reader.GetInt32(0),
+                            Nombres = reader.GetString(1),
+                            Apellidos = reader.GetString(2),
+                            Nit = reader.GetInt32(3),
+                            Tipo_docu = reader.GetString(4),
+                            Correo = reader.GetString(5)
+                        };
+                    }
+                }
+            }
+
+            Connection.Disconnect();
+            return user;
+        }
+
+
+        public List<UserDto> GetCandidatos(string cargo = null)
+        {
+            List<UserDto> candidatos = new List<UserDto>();
+
+            string sql = "SELECT id_usuario, nombres, apellidos, nit, tipo_docu, correo " + // Correo añadido
+                         "FROM [bdProyecto].[dbo].[usuario]";
+
+            if (!string.IsNullOrEmpty(cargo))
+            {
+                sql += " WHERE cargo = @Cargo"; // Comentario de lógica de filtrado por cargo
+            }
+
+            DbContextUtility Connection = new DbContextUtility();
+            Connection.Connect();
+
+            using (SqlCommand command = new SqlCommand(sql, Connection.CONN()))
+            {
+                if (!string.IsNullOrEmpty(cargo))
+                {
+                    command.Parameters.AddWithValue("@Cargo", cargo);
+                }
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        UserDto candidato = new UserDto
+                        {
+                            Id_usuario = reader.GetInt32(0),
+                            Nombres = reader.GetString(1),
+                            Apellidos = reader.GetString(2),
+                            Nit = reader.GetInt32(3),
+                            Tipo_docu = reader.GetString(4),
+                            Correo = reader.IsDBNull(5) ? null : reader.GetString(5) // Verifica si el correo es nulo
+                        };
+                        candidatos.Add(candidato);
+                    }
+                }
+            }
+
+            Connection.Disconnect();
+            return candidatos;
+        }
     }
-        //public class UserRepository
-        //{
-        //    public int CreateUser(UserDto user)
-        //    {
-        //        int comando = 0;
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        //consulta SQL
-        //        string SQL = "INSERT INTO TEST.dbo.[USER] (id_role,id_state,name,username,password) "
-        //                    + "VALUES (" + user.IdRole + "," + user.IdState + ",'" + user.Name +
-        //                    "','" + user.Username + "','" + user.Password + "');";
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            comando = command.ExecuteNonQuery();
-        //        }
-        //        Connection.Disconnect();
+}
+    //public class UserRepository
+    //{
+    //        public int CreateUser(UserDto user)
+    //        {
+    //            int comando = 0;
+    //            DbContextUtility Connection = new DbContextUtility();
+    //            Connection.Connect();
 
-        //        return comando;
-        //    }
+//            string SQL = "INSERT INTO [bdProyecto].[dbo].[usuario] (nit, tipo_docu, nombres, apellidos, correo, contrasenia) " +
+//                         "VALUES (@Nit, @Tipo_docu, @Nombres, @Apellidos, @Correo, @Contrasenia);";
 
-        //    public bool BuscarUsuario(string username)
-        //    {
-        //        bool result = false;
-        //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
-        //            "FROM TEST.dbo.[USER] " +
-        //            "WHERE username = '" + username + "';";
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    result = true;
-        //                }
-        //            }
-        //        }
-        //        Connection.Disconnect();
+//            using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+//            {
+//                command.Parameters.AddWithValue("@Nit", user.Nit);
+//                command.Parameters.AddWithValue("@Tipo_docu", user.Tipo_docu);
+//                command.Parameters.AddWithValue("@Nombres", user.Nombres);
+//                command.Parameters.AddWithValue("@Apellidos", user.Apellidos);
+//                command.Parameters.AddWithValue("@Correo", user.Correo);
+//                command.Parameters.AddWithValue("@Contrasenia", user.Contrasenia);
 
-        //        return result;
-        //    }
+//                comando = command.ExecuteNonQuery();
+//            }
+//            Connection.Disconnect();
 
-        //    public UserDto Login(UserDto user)
-        //    {
-        //        UserDto userResult = new UserDto();
+//            return comando;
+//        }
 
-        //        //Consulta SQL
-        //        string SQL = "SELECT name,username,password,id_user,id_role,id_state " +
-        //            "FROM TEST.dbo.[USER] " +
-        //            "WHERE username = '" + user.Username + "' AND password = '" + user.Password + "';";
-        //        DbContextUtility Connection = new DbContextUtility();
-        //        Connection.Connect();
-        //        using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
-        //        {
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    userResult.IdUser = reader.GetInt32(3);
-        //                    userResult.IdRole = reader.GetInt32(4);
-        //                    userResult.IdState = reader.GetInt32(5);
-        //                    userResult.Name = reader.GetString(0);
-        //                    userResult.Username = reader.GetString(1);
-        //                    userResult.Password = reader.GetString(2);
-        //                }
-        //            }
-        //        }
-        //        Connection.Disconnect();
+//        public bool BuscarUsuario(string nombres)
+//        {
+//            bool result = false;
+//            string SQL = "SELECT nombres, apellidos, correo, contrasenia, id_usuario, nit, tipo_docu " +
+//                         "FROM [bdProyecto].[dbo].[usuario] " +
+//                         "WHERE nombres = @Nombres;";
 
-        //        return userResult;
-        //    }
-        //}
-    }
+//            DbContextUtility Connection = new DbContextUtility();
+//            Connection.Connect();
+
+//            using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+//            {
+//                command.Parameters.AddWithValue("@Nombres", nombres);
+
+//                using (SqlDataReader reader = command.ExecuteReader())
+//                {
+//                    if (reader.Read())
+//                    {
+//                        result = true;
+//                    }
+//                }
+//            }
+//            Connection.Disconnect();
+
+//            return result;
+//        }
+
+//        public UserDto Login(UserDto user)
+//        {
+//            UserDto userResult = new UserDto();
+
+//            string SQL = "SELECT nombres, apellidos, correo, contrasenia, id_usuario, nit, tipo_docu " +
+//                         "FROM [bdProyecto].[dbo].[usuario] " +
+//                         "WHERE nit = @Nit AND contrasenia = @Contrasenia;";
+
+//            DbContextUtility Connection = new DbContextUtility();
+//            Connection.Connect();
+
+//            using (SqlCommand command = new SqlCommand(SQL, Connection.CONN()))
+//            {
+//                command.Parameters.AddWithValue("@Nit", user.Nit);
+//                command.Parameters.AddWithValue("@Contrasenia", user.Contrasenia);
+
+//                using (SqlDataReader reader = command.ExecuteReader())
+//                {
+//                    if (reader.Read())
+//                    {
+//                        userResult.Id_usuario = reader.GetInt32(reader.GetOrdinal("id_usuario"));
+//                        userResult.Nit = reader.GetInt32(reader.GetOrdinal("nit"));
+//                        userResult.Tipo_docu = reader.GetString(reader.GetOrdinal("tipo_docu"));
+//                        userResult.Nombres = reader.GetString(reader.GetOrdinal("nombres"));
+//                        userResult.Apellidos = reader.GetString(reader.GetOrdinal("apellidos"));
+//                        userResult.Correo = reader.GetString(reader.GetOrdinal("correo")); // Nuevo campo
+//                        userResult.Contrasenia = reader.GetString(reader.GetOrdinal("contrasenia"));
+//                        userResult.Response = 1;  // Login exitoso
+//                    }
+//                    else
+//                    {
+//                        userResult.Response = 0;  // Credenciales incorrectas
+//                        userResult.Mensaje = "NIT o contraseña incorrectos.";
+//                    }
+//                }
+//            }
+//            Connection.Disconnect();
+
+//            return userResult;
+//        }
+
+//    public UserDto ObtenerUsuarioPorId(int id)
+//    {
+//        UserDto user = null;
+
+//        string sql = "SELECT id_usuario, nombres, apellidos, nit, tipo_docu " +
+//                     "FROM [bdProyecto].[dbo].[usuario] " +
+//                     "WHERE id_usuario = @Id";
+
+//        DbContextUtility Connection = new DbContextUtility();
+//        Connection.Connect();
+
+//        using (SqlCommand command = new SqlCommand(sql, Connection.CONN()))
+//        {
+//            command.Parameters.AddWithValue("@Id", id);
+
+//            using (SqlDataReader reader = command.ExecuteReader())
+//            {
+//                if (reader.Read())
+//                {
+//                    user = new UserDto
+//                    {
+//                        Id_usuario = reader.GetInt32(0),
+//                        Nombres = reader.GetString(1),
+//                        Apellidos = reader.GetString(2),
+//                        Nit = reader.GetInt32(3),
+//                        Tipo_docu = reader.GetString(4)
+//                    };
+//                }
+//            }
+//        }
+
+//        Connection.Disconnect();
+//        return user;
+//    }
+
+//    public List<UserDto> GetCandidatos(string cargo = null)
+//        {
+//            List<UserDto> candidatos = new List<UserDto>();
+
+//            string sql = "SELECT id_usuario, nombres, apellidos, nit, tipo_docu " +
+//                         "FROM [bdProyecto].[dbo].[usuario]";
+
+//            if (!string.IsNullOrEmpty(cargo))
+//            {
+//                sql += " WHERE cargo = @Cargo"; // Comentario de lógica de filtrado por cargo
+//            }
+
+//            DbContextUtility Connection = new DbContextUtility();
+//            Connection.Connect();
+
+//            using (SqlCommand command = new SqlCommand(sql, Connection.CONN()))
+//            {
+//                if (!string.IsNullOrEmpty(cargo))
+//                {
+//                    command.Parameters.AddWithValue("@Cargo", cargo);
+//                }
+
+//                using (SqlDataReader reader = command.ExecuteReader())
+//                {
+//                    while (reader.Read())
+//                    {
+//                        UserDto candidato = new UserDto
+//                        {
+//                            Id_usuario = reader.GetInt32(0),
+//                            Nombres = reader.GetString(1),
+//                            Apellidos = reader.GetString(2),
+//                            Nit = reader.GetInt32(3),
+//                            Tipo_docu = reader.GetString(4)
+//                        };
+//                        candidatos.Add(candidato);
+//                    }
+//                }
+//            }
+
+//            Connection.Disconnect();
+//            return candidatos;
+//        }
+

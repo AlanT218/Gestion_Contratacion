@@ -1,0 +1,96 @@
+﻿@model Proyecto_Gestion.Dtos.UserDto
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="table-container">
+                <h4 class="text-center">Detalles del Candidato</h4>
+
+                <table>
+                    <tr>
+                        <th>NIT</th>
+                        <td>@Model.Nit</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>@Model.Nombres @Model.Apellidos</td>
+                    </tr>
+                    <tr>
+                        <th>Correo</th>
+                        <td>@Model.Correo</td>
+                    </tr>
+                </table>
+
+                <div class="button-group mt-4">
+                    @using (Html.BeginForm("Aceptar", "User", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", Model.Id_usuario)
+                        <button type="submit" class="btn btn-success">Aceptar</button>
+                    }
+
+                    @using (Html.BeginForm("Rechazar", "User", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", Model.Id_usuario)
+                        <button type="submit" class="btn btn-danger">Rechazar</button>
+                    }
+                </div>
+
+                <div class="button-container mt-4">
+                    <a href="@Url.Action("Candidatos", "User")" class="btn btn-secondary">Volver</a>
+                </div>
+
+                @if (TempData["Mensaje"] != null)
+                {
+                    <div class="alert alert-success mt-3">@TempData["Mensaje"]</div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger mt-3">@TempData["Error"]</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Contenedor principal */
+    .table-container {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 1.2em;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Tabla de detalles del usuario */
+    table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+        font-size: 1.1em;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    /* Espaciado para separar los botones de la tabla */
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 30px; /* Espacio entre la tabla y los botones */
+    }
+
+    /* Ajustes de tamaño para los botones */
+    .btn {
+        width: 120px;
+        font-size: 1.1em;
+        padding: 10px;
+    }
+</style>

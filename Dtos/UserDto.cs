@@ -12,6 +12,7 @@ namespace Proyecto_Gestion.Dtos
             public string Tipo_docu { get; set; } = string.Empty;
             public string Nombres { get; set; } = string.Empty;
             public string Apellidos { get; set; } = string.Empty;
+            public string Correo { get; set; } = string.Empty;
             public string Contrasenia { get; set; } = string.Empty;
             public int Response { get; set; }
             public string Mensaje { get; set; } = string.Empty;

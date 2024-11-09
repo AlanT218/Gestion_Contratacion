@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utilities\EmailConfigUtility.cs" />
     <Compile Include="Utilities\DbContextUtility.cs" />
     <Compile Include="Utilities\EncryptUtility.cs" />
   </ItemGroup>
@@ -168,6 +169,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="imagenes\foto.png" />
+    <Content Include="imagenes\logo.png" />
     <Content Include="Repositories\Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -216,10 +219,11 @@
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\VistaForm.cshtml" />
+    <Content Include="Views\User\Candidatos.cshtml" />
+    <Content Include="Views\User\DetallesCandidato.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="imagenes\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

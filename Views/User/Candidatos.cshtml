@@ -1,0 +1,119 @@
+﻿@model List<Proyecto_Gestion.Dtos.UserDto>
+
+<div class="user-list">
+    <h2>Candidatos</h2>
+    <!-- Formulario de filtro -->
+    <form method="get" action="@Url.Action("Candidatos", "User")" class="filter-form">
+        <label for="cargo">Filtrar por cargo:</label>
+        <select id="cargo" name="cargo">
+            <option value="">Seleccione un cargo</option>
+            <option value="Contador">Contador</option>
+            <option value="Ingeniero">Ingeniero</option>
+            <option value="Administrador">Administrador</option>
+            <!-- Más opciones -->
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+    <!-- Tabla de candidatos -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th> <!-- Celda vacía para foto -->
+                    <th>Nombre Usuario</th>
+                    <th>Edad</th>
+                    <th>Cargo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var candidato in Model)
+                {
+                    <tr>
+                        <td class="photo-cell">
+                            <div class="user-image">
+                                <img src="~/imagenes/foto.png" alt="Usuario" />
+                            </div>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetallesCandidato", "User", new { id = candidato.Id_usuario })" class="user-name">
+                                @candidato.Nombres @candidato.Apellidos
+                            </a>
+                        </td>
+                        @*<td>@candidato.Edad</td>
+                            <td>@candidato.Cargo</td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+    }
+
+    .user-list {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .filter-form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+        .filter-form label, .filter-form select, .filter-form button {
+            margin-right: 5px;
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    th {
+        background-color: #e0e0e0;
+    }
+
+    .photo-cell {
+        width: 70px; /* Ajusta el ancho de la celda de la foto */
+    }
+
+    .user-image {
+        display: block;
+        width: 40px; /* Ajusta el tamaño de la imagen */
+        height: 40px; /* Ajusta el tamaño de la imagen */
+        margin: 0 auto;
+    }
+
+        .user-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+    .user-name {
+        color: #007bff;
+        text-decoration: none;
+    }
+</style>
