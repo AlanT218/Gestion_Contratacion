@@ -171,10 +171,18 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="imagenes\Acep.png" />
+    <Content Include="imagenes\banner1.jpg" />
+    <Content Include="imagenes\banner2.jpg" />
+    <Content Include="imagenes\banner3.jpg" />
     <Content Include="imagenes\Candidatos.png" />
     <Content Include="imagenes\Empleados.png" />
     <Content Include="imagenes\foto.png" />
     <Content Include="imagenes\logo.png" />
+    <Content Include="imagenes\pr1.png" />
+    <Content Include="imagenes\pr2.png" />
+    <Content Include="imagenes\pr3.png" />
+    <Content Include="imagenes\pr4.png" />
+    <Content Include="imagenes\pr5.png" />
     <Content Include="imagenes\Rech.png" />
     <Content Include="imagenes\Reportes.png" />
     <Content Include="imagenes\Rev.png" />
@@ -231,6 +239,7 @@
     <Content Include="Views\User\PermisoDenegado.cshtml" />
     <Content Include="Views\User\GestionUsuarios.cshtml" />
     <Content Include="Views\User\Lista.cshtml" />
+    <Content Include="Views\Shared\_Layout_2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
