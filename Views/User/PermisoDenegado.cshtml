@@ -1,0 +1,15 @@
+﻿@model Proyecto_Gestion.Dtos.UserDto
+
+@{
+    ViewBag.Title = "No Autorizado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>No tienes permiso para ver esta página.</h2>
+            <button type="button" class="btn btn-primary" onclick="window.history.back();">Regresar</button>
+        </div>
+    </div>
+</div>

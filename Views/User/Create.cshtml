@@ -1,0 +1,174 @@
+﻿@model Proyecto_Gestion.Dtos.UserDto
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="form-container position-relative">
+                <div class="title-container">
+                    <h4 class="text-center">Registro</h4>
+                </div>
+                <form asp-action="Create/USerDto" method="post">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <label for="Nit" class="font-weight-bold">Número de Identificación (NIT)</label>
+                        <input type="text" class="form-control" id="Nit" name="Nit" placeholder="Ingresa tu identificación"
+                               value="@Model.Nit" pattern="\d+" title="Solo se permiten números" required />
+                        @Html.ValidationMessageFor(model => model.Nit, "", new { @class = "text-danger" })
+                    </div>
+
+                    @*<div class="form-group">
+            <label for="Nit" class="font-weight-bold">Número de Identificación (NIT)</label>
+            <input type="text" class="form-control" id="Nit" name="Nit" placeholder="Ingresa tu identificación" value="@Model.Nit" required pattern="\d+" />
+            @Html.ValidationMessageFor(model => model.Nit, "", new { @class = "text-danger" })
+        </div>*@
+                    <div class="form-group">
+                        <label for="Tipo_docu" class="font-weight-bold">Tipo de Documento</label>
+                        <select class="form-control" id="Tipo_docu" name="Tipo_docu">
+                            <option value="CC">Cédula de Ciudadanía</option>
+                            <option value="CE">Cédula de Extranjería</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.Tipo_docu, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Nombres" class="font-weight-bold">Nombres</label>
+                        <input type="text" class="form-control" id="Nombres" name="Nombres" placeholder="Ingresa tus nombres"
+                               value="@Model.Nombres" pattern="[A-Za-z\s]+" title="Solo se permiten letras y espacios" required />
+                        @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Apellidos" class="font-weight-bold">Apellidos</label>
+                        <input type="text" class="form-control" id="Apellidos" name="Apellidos" placeholder="Ingresa tus apellidos"
+                               pattern="[A-Za-z\s]+" title="Solo se permiten letras y espacios" required />
+                        @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <!-- Contenedor del logo posicionado a la derecha del campo de nombres -->
+                    <div class="logo-container">
+                        <img src="~/imagenes/logo.png" alt="Logo" class="logo-img">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Correo" class="font-weight-bold">Correo</label>
+                        <input type="email" class="form-control" id="Correo" name="Correo" placeholder="Ingresa tu correo" />
+                        @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Contrasenia" class="font-weight-bold">Contraseña</label>
+                        @*<input type="password" class="form-control" id="Contrasenia" name="Contrasenia" placeholder="Ingresa tu contraseña" />
+            @Html.ValidationMessageFor(model => model.Contrasenia, "", new { @class = "text-danger" })*@
+                        <input type="password" class="form-control" id="Contrasenia" name="Contrasenia" placeholder="Ingresa tu contraseña"
+                               pattern="[a-z0-9.,_*]+" title="La contraseña solo puede contener letras minúsculas, números y los caracteres ., _ *" required />
+                        @Html.ValidationMessageFor(model => model.Contrasenia, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" class="btn btn-secondary mx-2">Cancelar</button>
+                        <button type="submit" class="btn btn-primary mx-2">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #ffffff;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: none;
+        position: relative;
+    }
+
+    .title-container {
+        background-color: #800000;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        color: #000;
+        font-family: 'Dancing Script', cursive;
+        font-weight: bold;
+        font-size: 50px;
+        margin: 0;
+    }
+
+    .form-control {
+        height: 45px;
+        border-radius: 25px;
+        box-shadow: none;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #800000;
+            box-shadow: none;
+        }
+
+    .btn-primary {
+        background-color: #CDAA7D;
+        border-color: #A67B54;
+        border-radius: 25px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #c87a67;
+            border-color: #9c6558;
+        }
+
+    .btn-secondary {
+        background-color: #CDAA7D;
+        border-color: #A67B54;
+        border-radius: 25px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+        .btn-secondary:hover {
+            background-color: #c87a67;
+            border-color: #9c6558;
+        }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+        .button-container .btn {
+            margin: 0 20px;
+        }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 18px;
+        border-radius: 25px;
+    }
+
+    .logo-container {
+        position: absolute;
+        top: 200px;
+        right: -120px;
+    }
+
+    .logo-img {
+        max-width: 250px;
+    }
+</style>
