@@ -89,6 +89,10 @@ namespace Proyecto_Gestion.Controllers
                 {
                     return RedirectToAction("GestionUsuarios", "User"); // Redirige a la vista de candidatos para administradores
                 }
+                else if (userResponse.Rol == 2)
+                {
+                    return RedirectToAction("GestionUsuariosAsistente", "User"); // Redirige a la vista 
+                }
                 else if (userResponse.Rol == 1)
                 {
                     return RedirectToAction("VistaForm", "User"); // Redirige a la vista de bienvenida para candidatos
@@ -121,8 +125,49 @@ namespace Proyecto_Gestion.Controllers
         {
             return View();
         }
+        
 
-        [ValidacionUtility(3)]
+        [ValidacionUtility(2)]
+        public ActionResult GestionUsuariosAsistente()
+        {
+            return View();
+        }
+
+        [ValidacionUtility(3,2)]
+        //public ActionResult Lista(string estado)
+        //{
+        //    UserService userService = new UserService();
+        //    var (aceptados, rechazados, candidatos, empleados) = userService.GetCandidatos();
+
+        //    List<UserDto> usuarios;
+        //    switch (estado)
+        //    {
+        //        case "A":
+        //            usuarios = aceptados;
+        //            ViewBag.Titulo = "Usuarios Aceptados";
+
+
+        //            break;
+        //        case "R":
+        //            usuarios = rechazados;
+        //            ViewBag.Titulo = "Usuarios Rechazados";
+        //            break;
+        //        case "C":
+        //            usuarios = candidatos;
+        //            ViewBag.Titulo = "Candidatos";
+        //            break;
+        //        case "E":
+        //            usuarios = empleados;
+        //            ViewBag.Titulo = "Empleados";
+        //            break;
+        //        default:
+        //            usuarios = new List<UserDto>();
+        //            ViewBag.Titulo = "Lista de Usuarios";
+        //            break;
+        //    }
+
+        //    return View(usuarios);
+        //}
         public ActionResult Lista(string estado)
         {
             UserService userService = new UserService();
@@ -153,20 +198,27 @@ namespace Proyecto_Gestion.Controllers
                     break;
             }
 
+            // Almacenar el estado en la sesión
+            Session["EstadoLista"] = estado;
+
             return View(usuarios);
         }
 
 
-        //public ActionResult Candidatos(string cargo = null)
+        //[ValidacionUtility(3,2)]
+        //public ActionResult DetallesCandidato(int id)
         //{
         //    UserService userService = new UserService();
-        //    // Obtiene la lista de candidatos
-        //    List<UserDto> candidatos = userService.ObtenerCandidatos(cargo); 
-        //    return View(candidatos);
+        //    UserDto candidato = userService.ObtenerUsuarioPorId(id);
+
+        //    if (candidato == null)
+        //    {
+        //        return HttpNotFound(); // Devuelve un error 404 si el candidato no existe.
+        //    }
+
+        //    return View(candidato);
         //}
-
-
-        [ValidacionUtility(3)]
+        [ValidacionUtility(3, 2)]
         public ActionResult DetallesCandidato(int id)
         {
             UserService userService = new UserService();
@@ -177,9 +229,20 @@ namespace Proyecto_Gestion.Controllers
                 return HttpNotFound(); // Devuelve un error 404 si el candidato no existe.
             }
 
+            // Recupera el estado almacenado en la sesión para usarlo en la vista
+            ViewBag.EstadoLista = Session["EstadoLista"];
+
             return View(candidato);
         }
 
+
+        //public ActionResult Candidatos(string cargo = null)
+        //{
+        //    UserService userService = new UserService();
+        //    // Obtiene la lista de candidatos
+        //    List<UserDto> candidatos = userService.ObtenerCandidatos(cargo); 
+        //    return View(candidatos);
+        //}
 
         // Acción para aceptar al candidato
         [HttpPost]
@@ -232,7 +295,7 @@ namespace Proyecto_Gestion.Controllers
                 return RedirectToAction("DetallesCandidato", new { id = id });
             }
         }
-        [ValidacionUtility(1,3)]
+        [ValidacionUtility(1,2,3)]
         public ActionResult PermisoDenegado()
             {
                 return View();

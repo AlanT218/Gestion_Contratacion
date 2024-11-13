@@ -81,11 +81,14 @@ namespace Proyecto_Gestion.Services
                 // Lógica para la redirección basada en el rol del usuario
                 if (userResponse.Rol == 1) // Rol de candidato
                 {
-                    userResponse.Mensaje = "Bienvenido candidato";
+                    userResponse.Mensaje = "Bienvenido Candidato";
+                }else if (userResponse.Rol == 2) // Rol de asistente
+                {
+                    userResponse.Mensaje = "Bienvenido Asistente";
                 }
                 else if (userResponse.Rol == 3) // Rol de administrador
                 {
-                    userResponse.Mensaje = "Bienvenido administrador";
+                    userResponse.Mensaje = "Bienvenido Administrador";
                 }
             }
             else
@@ -96,30 +99,30 @@ namespace Proyecto_Gestion.Services
             return userResponse;
         }
 
-        //public UserDto LoginUser(UserDto userModel)
-        //{
-        //    UserRepository userRepository = new UserRepository();
+            //public UserDto LoginUser(UserDto userModel)
+            //{
+            //    UserRepository userRepository = new UserRepository();
 
-        //    // Llamar al método Login para verificar las credenciales
-        //    UserDto userResponse = userRepository.Login(userModel);
+            //    // Llamar al método Login para verificar las credenciales
+            //    UserDto userResponse = userRepository.Login(userModel);
 
-        //    // Verificar si se encontró el usuario (Id_usuario no será 0 si es correcto)
-        //    if (userResponse.Id_usuario != 0)
-        //    {
-        //        userResponse.Mensaje = "Inicio de sesión exitoso";
+            //    // Verificar si se encontró el usuario (Id_usuario no será 0 si es correcto)
+            //    if (userResponse.Id_usuario != 0)
+            //    {
+            //        userResponse.Mensaje = "Inicio de sesión exitoso";
 
-        //        // Lógica para la redirección basada en el rol o cualquier otra acción que desees realizar al iniciar sesión.
-        //    }
-        //    else
-        //    {
-        //        userResponse.Mensaje = "Error en el inicio de sesión, nombre de usuario o contraseña incorrectos";
-        //    }
+            //        // Lógica para la redirección basada en el rol o cualquier otra acción que desees realizar al iniciar sesión.
+            //    }
+            //    else
+            //    {
+            //        userResponse.Mensaje = "Error en el inicio de sesión, nombre de usuario o contraseña incorrectos";
+            //    }
 
-        //    return userResponse;
-        //}
+            //    return userResponse;
+            //}
 
 
-        public UserDto ObtenerUsuarioPorId(int id)
+            public UserDto ObtenerUsuarioPorId(int id)
         {
             UserRepository userRepository = new UserRepository();
             return userRepository.ObtenerUsuarioPorId(id);

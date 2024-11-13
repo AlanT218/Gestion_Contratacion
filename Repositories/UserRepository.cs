@@ -115,7 +115,7 @@ namespace Proyecto_Gestion.Repositories
                         userResult.Apellidos = reader.GetString(reader.GetOrdinal("apellidos"));
                         userResult.Correo = reader.GetString(reader.GetOrdinal("correo"));
                         userResult.Contrasenia = reader.GetString(reader.GetOrdinal("contrasenia"));
-                        userResult.Rol = reader.GetInt32(reader.GetOrdinal("rol")); // Añadir rol
+                        userResult.Rol = reader.GetInt32(reader.GetOrdinal("rol"));
                         userResult.Response = 1;  // Login exitoso
                     }
                     else
@@ -206,6 +206,7 @@ namespace Proyecto_Gestion.Repositories
             Connection.Disconnect();
             return user;
         }
+
 
         public (List<UserDto> Aceptados, List<UserDto> Rechazados, List<UserDto> Candidatos, List<UserDto> Empleados) GetCandidatos(string cargo = null)
         {

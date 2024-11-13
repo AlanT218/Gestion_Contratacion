@@ -1,7 +1,7 @@
 ﻿@model List<Proyecto_Gestion.Dtos.UserDto>
 
 <div class="user-list">
-    <h2>Candidatos</h2>
+    <h2>@ViewBag.Titulo</h2>
     <!-- Formulario de filtro -->
     <form method="get" action="@Url.Action("Lista", "User")" class="filter-form">
         <label for="cargo">Filtrar por cargo:</label>
@@ -10,11 +10,10 @@
             <option value="Contador">Contador</option>
             <option value="Ingeniero">Ingeniero</option>
             <option value="Administrador">Administrador</option>
-            <!-- Más opciones -->
         </select>
         <button type="submit">Filtrar</button>
     </form>
-    <!-- Tabla de candidatos -->
+    <!-- Tabla de usuarios -->
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -40,8 +39,6 @@
                             </a>
                         </td>
 
-                        @*<td>@candidato.Edad</td>
-                        <td>@candidato.Cargo</td>*@
                     </tr>
                 }
             </tbody>
@@ -49,25 +46,30 @@
         <div class="button-container mt-4">
             <a href="@Url.Action("GestionUsuarios", "User")" class="btn btn-secondary">Volver</a>
         </div>
-
     </div>
 </div>
-
 <style>
+
     body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
     }
+
+
 
     .user-list {
         max-width: 800px;
         margin: 20px auto;
     }
 
+
+
     h2 {
         text-align: center;
         color: #333;
     }
+
+
 
     .filter-form {
         display: flex;
@@ -75,18 +77,26 @@
         margin-bottom: 20px;
     }
 
+
+
         .filter-form label, .filter-form select, .filter-form button {
             margin-right: 5px;
         }
+
+
 
     .table-responsive {
         overflow-x: auto;
     }
 
+
+
     .table {
         width: 100%;
         border-collapse: collapse;
     }
+
+
 
     th, td {
         padding: 10px;
@@ -95,20 +105,30 @@
         vertical-align: middle;
     }
 
+
+
     th {
         background-color: #e0e0e0;
     }
+
+
 
     .photo-cell {
         width: 70px; /* Ajusta el ancho de la celda de la foto */
     }
 
+
+
     .user-image {
         display: block;
         width: 40px; /* Ajusta el tamaño de la imagen */
+
         height: 40px; /* Ajusta el tamaño de la imagen */
+
         margin: 0 auto;
     }
+
+
 
         .user-image img {
             width: 100%;
@@ -116,6 +136,8 @@
             border-radius: 50%;
             object-fit: cover;
         }
+
+
 
     .user-name {
         color: #007bff;

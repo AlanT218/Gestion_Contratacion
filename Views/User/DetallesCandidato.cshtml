@@ -4,8 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="table-container">
-                <h4 class="text-center">Detalles del Candidato</h4>
-
+                <h4 class="text-center">Información del Usuario</h4>
                 <table>
                     <tr>
                         <th>NIT</th>
@@ -20,25 +19,30 @@
                         <td>@Model.Correo</td>
                     </tr>
                 </table>
-
                 <div class="button-group mt-4">
-                    @using (Html.BeginForm("Aceptar", "User", FormMethod.Post))
-                    {
-                        @Html.Hidden("id", Model.Id_usuario)
-                        <button type="submit" class="btn btn-success">Aceptar</button>
+                    @{
+                        string estado = ViewBag.EstadoLista as string;
                     }
-
-                    @using (Html.BeginForm("Rechazar", "User", FormMethod.Post))
+                    @if (estado == "A" || estado == "C")
                     {
-                        @Html.Hidden("id", Model.Id_usuario)
-                        <button type="submit" class="btn btn-danger">Rechazar</button>
+                        using (Html.BeginForm("Rechazar", "User", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", Model.Id_usuario)
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        }
+                    }
+                    @if (estado == "R" || estado == "C")
+                    {
+                        using (Html.BeginForm("Aceptar", "User", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", Model.Id_usuario)
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        }
                     }
                 </div>
-
                 <div class="button-container mt-4">
                     <a href="@Url.Action("GestionUsuarios", "User")" class="btn btn-secondary">Volver</a>
                 </div>
-
                 @if (TempData["Mensaje"] != null)
                 {
                     <div class="alert alert-success mt-3">@TempData["Mensaje"]</div>
@@ -52,8 +56,11 @@
     </div>
 </div>
 
+
 <style>
+
     /* Contenedor principal */
+
     .table-container {
         margin-top: 30px;
         text-align: center;
@@ -61,12 +68,17 @@
         font-family: Arial, sans-serif;
     }
 
+
+
     /* Tabla de detalles del usuario */
+
     table {
         margin: 0 auto;
         border-collapse: collapse;
         width: 100%;
     }
+
+
 
     th, td {
         padding: 15px;
@@ -75,11 +87,16 @@
         font-size: 1.1em;
     }
 
+
+
     th {
         background-color: #f4f4f4;
     }
 
+
+
     /* Espaciado para separar los botones de la tabla */
+
     .button-group {
         display: flex;
         justify-content: center;
@@ -87,10 +104,13 @@
         margin-top: 30px; /* Espacio entre la tabla y los botones */
     }
 
+
+
     /* Ajustes de tamaño para los botones */
+
     .btn {
         width: 120px;
         font-size: 1.1em;
         padding: 10px;
     }
-</style>
+</style> 

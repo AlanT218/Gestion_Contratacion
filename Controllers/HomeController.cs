@@ -13,6 +13,12 @@ namespace Proyecto_Gestion.Controllers
             return View();
         }
 
+        public ActionResult Report()
+        {
+            
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
