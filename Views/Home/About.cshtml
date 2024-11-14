@@ -1,7 +1,136 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="container mt-5">
+    <div class="text-center">
+        <p class="lead title-lead">Sobre nosotros</p>
+    </div>
+
+    <!-- Información de la empresa -->
+    <div class="company-info">
+        <h3 class="section-title">Sobre Grupo Empresarial Castillo Asociados S.A.S.</h3>
+        <p>
+            Grupo Empresarial Castillo Asociados S.A.S es una empresa dedicada a la prestación de servicios en áreas de mantenimiento, cultivo y obras civiles. Fue fundada el 19 de febrero de 2022 con el objetivo de cumplir con las exigencias del mercado, enfocando sus esfuerzos en la mejora continua y el compromiso con la calidad de cada producto entregado al cliente. La sede principal se encuentra ubicada en el municipio de Facatativá en la Carrera 13ª # 13ª - 11.
+        </p>
+    </div>
+
+    <div class="text-center">
+        <img src="~/imagenes/pr3.jpg" class="section-image" />
+    </div>
+
+    <!-- Misión -->
+    <div class="mission-section mt-4">
+        <h3 class="section-title">Misión</h3>
+        <p class="section-content">
+            Reducir costos de producción de nuestros clientes y proporcionar confianza en nuestros procesos y servicios, ofreciendo soluciones óptimas frente a las diferentes necesidades que se presentan en el desarrollo de la actividad productiva. Contamos con un amplio catálogo de servicios en mantenimiento, cultivo y obras civiles, brindando una experiencia basada en el cumplimiento, calidad, eficiencia, honestidad y respeto.
+        </p>
+    </div>
+
+    <div class="text-center">
+        <img src="~/imagenes/pr2.jpg" class="section-image" />
+    </div>
+
+    <!-- Visión -->
+    <div class="vision-section mt-4">
+        <h3 class="section-title">Visión</h3>
+        <p class="section-content">
+            Consolidar la empresa Grupo Empresarial Castillo Asociados S.A.S como la principal empresa prestadora de servicios para el sector floricultor para el año 2026, siendo reconocidos como una empresa confiable y organizada, con altos estándares de calidad. Nos enfocamos en brindar empleos sólidos en la región, contribuyendo significativamente a mejorar la calidad de vida de nuestros colaboradores.
+        </p>
+    </div>
+
+    <div class="text-center">
+        <img src="~/imagenes/pr4.jpg" class="section-image" />
+    </div>
+
+
+    <div class="image-gallery mt-4">
+        <h3 class="section-title">Nuestros servicios</h3>
+        <p>Como empresa algunos de los servicios con los que contamos son:</p>
+
+        <!-- Lista de servicios -->
+        <ul class="service-list">
+            <li>Mantenimiento de áreas verdes</li>
+            <li>Paralelo de camas</li>
+            <li>Servicios de cultivo y jardinería</li>
+            <li>Servicio de instalación y cambio de cubierta</li>
+            <li>Instalación de lineas de vida</li>
+            <li>Siembra, deshierbe y desbotoneo</li>
+            <li>Servicios de limpieza en diferentes areas</li>
+            <li>Aporques</li>
+        </ul>
+    </div>
+
+    <div class="text-center">
+        <img src="~/imagenes/pr5.jpg" class="section-image" />
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+    }
+
+
+    .title-lead {
+        font-size: 2em;
+        font-weight: bold;
+        color: #800020;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        margin-bottom: 20px;
+    }
+
+
+    .section-title {
+        color: #800020;
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        font-size: 1.75em;
+        margin-bottom: 10px;
+    }
+
+
+    .mission-section, .vision-section, .image-gallery {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .section-content {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        font-size: 1.1em;
+        margin-top: 10px;
+    }
+
+
+    .section-image {
+        width: 100%;
+        height: auto;
+        margin-top: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .text-center {
+        text-align: center;
+    }
+
+
+    .service-list {
+        list-style-type: disc;
+        padding-left: 20px;
+        font-size: 1.1em;
+        color: #333;
+    }
+
+        .service-list li {
+            margin-bottom: 10px;
+        }
+</style>
