@@ -11,8 +11,16 @@ namespace Proyecto_Gestion.Services
     public class UserService
     {       public UserDto CreateUser(UserDto userModel)
             {
+<<<<<<< Updated upstream
                 UserDto responseUserDto = new UserDto();
                 UserRepository userRepository = new UserRepository();
+=======
+                // Encriptar la contraseña
+                //userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
+                userModel.Contrasenia = EncryptUtility.EncryptPassword(userModel.Contrasenia);
+                // Asignar rol de Candidato por defecto
+                userModel.Rol = 1;
+>>>>>>> Stashed changes
 
                 try
                 {
@@ -42,7 +50,39 @@ namespace Proyecto_Gestion.Services
 
                     return responseUserDto;
                 }
+<<<<<<< Updated upstream
                 catch (Exception e)
+=======
+
+                return responseUserDto;
+            }
+            catch (Exception e)
+            {
+                responseUserDto.Response = 0;
+                responseUserDto.Mensaje = e.InnerException != null ? e.InnerException.ToString() : e.Message;
+                return responseUserDto;
+            }
+        }
+
+        public UserDto LoginUser(UserDto userModel)
+        {
+            UserRepository userRepository = new UserRepository();
+
+            // Encriptar la contraseña ingresada utilizando la nueva encriptación
+            //userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
+            userModel.Contrasenia = EncryptUtility.EncryptPassword(userModel.Contrasenia);
+
+            // Llamar al método Login para verificar las credenciales
+            UserDto userResponse = userRepository.Login(userModel);
+
+            // Verificar si se encontró el usuario (Response será 1 si es correcto)
+            if (userResponse.Response == 1)
+            {
+                userResponse.Mensaje = "Inicio de sesión exitoso";
+
+                // Lógica para la redirección basada en el rol del usuario
+                if (userResponse.Rol == 1) // Rol de candidato
+>>>>>>> Stashed changes
                 {
                     responseUserDto.Response = 0;
                     responseUserDto.Mensaje = e.InnerException != null ? e.InnerException.ToString() : e.Message;

@@ -1,0 +1,116 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.Title</title>
+</head>
+<body>
+    <h1>@Model.Title</h1>
+    <p class="report-date">Fecha del Reporte: @Model.ReportDate.ToString("dd/MM/yyyy HH:mm:ss")</p>
+
+    <!-- Sección de Usuarios Aceptados -->
+    <h2>Usuarios Aceptados</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>NIT</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Aceptados)
+            {
+                <tr>
+                    <td>@user.Nit</td>
+                    <td>@user.Nombres @user.Apellidos</td>
+                    <td>@user.Correo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Sección de Usuarios Rechazados -->
+    <h2>Usuarios Rechazados</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>NIT</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Rechazados)
+            {
+                <tr>
+                    <td>@user.Nit</td>
+                    <td>@user.Nombres @user.Apellidos</td>
+                    <td>@user.Correo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Sección de Candidatos -->
+    <h2>Candidatos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>NIT</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Candidatos)
+            {
+                <tr>
+                    <td>@user.Nit</td>
+                    <td>@user.Nombres @user.Apellidos</td>
+                    <td>@user.Correo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        .report-date {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</body>
+</html>

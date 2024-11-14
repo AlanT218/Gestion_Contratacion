@@ -1,0 +1,169 @@
+﻿@model Proyecto_Gestion.Dtos.UserDto
+
+@{
+    ViewBag.Title = "GestionUsuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Usuarios</title>
+</head>
+<body>
+    <div class="module">
+        <h1>Módulo Usuarios</h1>
+        <div class="section-container">
+            <div class="section aceptados">
+                <img src="~/imagenes/Acep.png" alt="Aceptados">
+                <h2>Aceptados</h2>
+                <button onclick="location.href='@Url.Action("Lista", "User", new { estado = "A" })'">Ir</button>
+            </div>
+            <div class="section rechazados">
+                <img src="~/imagenes/Rech.png" alt="Rechazados">
+                <h2>Rechazados</h2>
+                <button onclick="location.href='@Url.Action("Lista", "User", new { estado = "R" })'">Ir</button>
+            </div>
+            <div class="section candidatos">
+                <img class="large-image" src="~/imagenes/Candidatos.png" alt="Candidatos">
+                <h2>Candidatos</h2>
+                <button onclick="location.href='@Url.Action("Lista", "User", new { estado = "C" })'">Ir</button>
+            </div>
+            <div class="section empleados">
+                <img class="large-image" src="~/imagenes/Empleados.png" alt="Empleados">
+                <h2>Trabajadores</h2>
+                <button onclick="location.href='@Url.Action("Lista", "User", new { estado = "E" })'">Ir</button>
+            </div>
+            <div class="section reportes">
+                <img class="large-image" src="~/imagenes/Reportes.png" alt="Reportes">
+                <h2>Reportes</h2>
+                <!-- Cambia la acción para llamar a DownloadCandidateReport directamente -->
+                <button onclick="location.href='@Url.Action("DownloadReport", "Home")'">Descargar Reporte</button>
+            </div>
+
+            @*<div class="section reportes">
+            <img class="large-image" src="~/imagenes/Reportes.png" alt="Reportes">
+            <h2>Reportes</h2>
+            <button onclick="location.href='@Url.Action("Report", "Home")'">Ir</button>
+        </div>*@
+        </div>
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .module {
+            margin: 20px auto;
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+        }
+
+            .module h1 {
+                font-size: 32px;
+                margin-bottom: 20px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+        .section-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            .section img {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 15px;
+            }
+
+        /* Aumentar tamaño imágenes */
+        .large-image {
+            width: 80px;
+            height: 80px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin: 10px 0;
+            font-weight: normal;
+        }
+
+        .section button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Colores para cada sección */
+        .aceptados {
+            background-color: #e0f7e0;
+        }
+
+            .aceptados button {
+                background-color: #4caf50;
+                color: white;
+            }
+
+        .rechazados {
+            background-color: #f7e0e0;
+        }
+
+            .rechazados button {
+                background-color: #f44336;
+                color: white;
+            }
+
+        .candidatos {
+            background-color: #e0e0e0;
+        }
+
+            .candidatos button {
+                background-color: #9e9e9e;
+                color: white;
+            }
+
+        .empleados {
+            background-color: #e0f0ff;
+        }
+
+            .empleados button {
+                background-color: #2196f3;
+                color: white;
+            }
+
+        .reportes {
+            background-color: #f0f0f0;
+        }
+
+            .reportes button {
+                background-color: white;
+                color: black;
+                border: 1px solid #757575; /* Añadir borde gris */
+            }
+    </style>
+</body>
+</html>
+
