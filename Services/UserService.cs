@@ -19,8 +19,8 @@ namespace Proyecto_Gestion.Services
             try
             {
                 // Encriptar la contraseña
-                userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
-                //userModel.Contrasenia = EncryptUtility.EncryptPassword(userModel.Contrasenia);
+                //userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
+                userModel.Contrasenia = EncryptUtility.EncryptPassword(userModel.Contrasenia);
                 // Asignar rol de Candidato por defecto
                 userModel.Rol = 1;
 
@@ -68,7 +68,8 @@ namespace Proyecto_Gestion.Services
             UserRepository userRepository = new UserRepository();
 
             // Encriptar la contraseña ingresada utilizando la nueva encriptación
-            userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
+            //userModel.Contrasenia = EncryptUtility.GetSHA256(userModel.Contrasenia);
+            userModel.Contrasenia = EncryptUtility.EncryptPassword(userModel.Contrasenia);
 
             // Llamar al método Login para verificar las credenciales
             UserDto userResponse = userRepository.Login(userModel);

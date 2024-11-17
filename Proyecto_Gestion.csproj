@@ -134,7 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Dtos\Report2Model.cs" />
+    <Compile Include="Dtos\ReportDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -159,7 +159,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utilities\ReportUtility.cs" />
     <Compile Include="Utilities\EmailConfigUtility.cs" />
     <Compile Include="Utilities\DbContextUtility.cs" />
     <Compile Include="Utilities\EncryptUtility.cs" />
@@ -175,10 +177,18 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="imagenes\Acep.png" />
+    <Content Include="imagenes\banner1.jpg" />
+    <Content Include="imagenes\banner2.jpg" />
+    <Content Include="imagenes\banner3.jpg" />
     <Content Include="imagenes\Candidatos.png" />
     <Content Include="imagenes\Empleados.png" />
     <Content Include="imagenes\foto.png" />
     <Content Include="imagenes\logo.png" />
+    <Content Include="imagenes\pr1.jpg" />
+    <Content Include="imagenes\pr2.jpg" />
+    <Content Include="imagenes\pr3.jpg" />
+    <Content Include="imagenes\pr4.jpg" />
+    <Content Include="imagenes\pr5.jpg" />
     <Content Include="imagenes\Rech.png" />
     <Content Include="imagenes\Reportes.png" />
     <Content Include="imagenes\Rev.png" />
@@ -242,6 +252,8 @@
     <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\User\GestionUsuarios.cshtml" />
     <Content Include="Views\User\GestionUsuariosAsistente.cshtml" />
+    <Content Include="Views\Shared\_Layout_Pdf.cshtml" />
+    <Content Include="Views\Home\Report2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

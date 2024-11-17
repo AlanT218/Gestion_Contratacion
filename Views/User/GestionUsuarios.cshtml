@@ -39,8 +39,10 @@
             <div class="section reportes">
                 <img class="large-image" src="~/imagenes/Reportes.png" alt="Reportes">
                 <h2>Reportes</h2>
-                <button onclick="location.href='@Url.Action("Reportes", "User")'">Ir</button>
+                <!-- Cambia la acción para llamar a DownloadReport en HomeController -->
+                <button onclick="location.href='@Url.Action("DownloadReport", "Home")'">Descargar Reporte</button>
             </div>
+
         </div>
     </div>
 

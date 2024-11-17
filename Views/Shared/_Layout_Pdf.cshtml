@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Layout Empresa</title>
+    <style>
+        .logo-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .empresa-container {
+            background-color: #800020;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="~/imagenes/logo.png" alt="Logo de la Empresa" class="logo">
+    </div>
+
+    <div class="empresa-container">
+        <h1>G.E Castillo Asociados</h1>
+    </div>
+
+    <!-- Aquí se renderizará el contenido de las vistas que usan este layout -->
+    @RenderBody()
+
+</body>
+</html>
+</html>
